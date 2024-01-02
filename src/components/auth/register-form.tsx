@@ -3,7 +3,7 @@ import * as z from "zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginChema } from "@/schemas";
+import { RegisterChema } from "@/schemas";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import {
   Form,
@@ -17,34 +17,35 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import { login } from "@/actions/login";
-export const LoginForm = () => {
+import { register } from "@/actions/register";
+export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
-  const form = useForm<z.infer<typeof LoginChema>>({
-    resolver: zodResolver(LoginChema),
+  const form = useForm<z.infer<typeof RegisterChema>>({
+    resolver: zodResolver(RegisterChema),
     defaultValues: {
       email: "",
       password: "",
+      name: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginChema>) => {
+  const onSubmit = (values: z.infer<typeof RegisterChema>) => {
     setError("");
     setSuccess("");
     startTransition(() => {
-      login(values).then((data) => {
+      register(values).then((data) => {
         setError(data.error);
-        // setSuccess(data.success)
+        setSuccess(data.success)
       });
     });
   };
   return (
     <CardWrapper
-      headerLabel="Welcome back"
-      backButtonHref="/auth/register"
-      backButtonLabel="Don't have an account?"
+      headerLabel="Create an account"
+      backButtonHref="/auth/login"
+      backButtonLabel="Already have an account?"
       showSocial
     >
       <Form {...form}>
@@ -86,7 +87,7 @@ export const LoginForm = () => {
           <FormSuccess message={error} />
           <FormError message={success} />
           <Button type="submit" disabled={isPending} className="w-full">
-            Login
+            Create an account
           </Button>
         </form>
       </Form>

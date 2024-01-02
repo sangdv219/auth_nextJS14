@@ -1,8 +1,6 @@
+import { RegisterForm } from "@/components/auth/register-form";
+
 const RegisterPage = () => {
-    return (
-      <div>
-        <nav className="bg-red-500 text-white">Login</nav>
-      </div>
-    );
-  };
-  export default RegisterPage;
+  return <RegisterForm />;
+};
+export default RegisterPage;
