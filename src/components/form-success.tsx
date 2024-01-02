@@ -5,7 +5,6 @@ interface FormErrorProps {
 }
 
 export const FormSuccess = ({message}:FormErrorProps) => {
-    console.info('message', message);
     if(!message) return null;
 
     return(

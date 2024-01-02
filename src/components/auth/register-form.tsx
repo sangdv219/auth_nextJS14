@@ -37,7 +37,7 @@ export const RegisterForm = () => {
     startTransition(() => {
       register(values).then((data) => {
         setError(data.error);
-        setSuccess(data.success)
+        setSuccess(data.success);
       });
     });
   };
@@ -51,6 +51,20 @@ export const RegisterForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
+            <FormField
+              control={form.control}
+              disabled={isPending}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="join.doe" type="text" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="email"
@@ -84,8 +98,8 @@ export const RegisterForm = () => {
               )}
             />
           </div>
-          <FormSuccess message={error} />
-          <FormError message={success} />
+          <FormSuccess message={success} />
+          <FormError message={error} />
           <Button type="submit" disabled={isPending} className="w-full">
             Create an account
           </Button>

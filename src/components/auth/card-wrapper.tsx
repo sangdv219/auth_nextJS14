@@ -9,7 +9,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { useRef } from "react";
+
 interface CardWrapperProps {
   children: React.ReactNode;
   headerLabel: string;

@@ -1,13 +1,33 @@
 'use server';
 
-import { LoginChema } from '@/schemas';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { RegisterChema } from '@/schemas';
+import bcrypt from 'bcryptjs';
+import { db } from '@/lib/db';
+import { getUserByEmail } from '@/data/user';
 
-export const register = async(value:Zod.infer<typeof LoginChema>) =>{
-    const validatedFields = LoginChema.safeParse(value);
-
+export const register = async(value:Zod.infer<typeof RegisterChema>) =>{
+    const validatedFields = RegisterChema.safeParse(value);
     if(!validatedFields.success){
         return { error: "Invalid fields!"}
     }
-    return { error: "Email sent!"}
+    const { email, password, name } = validatedFields.data
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const existingUser = await getUserByEmail(email)
+
+    if(existingUser){
+        return { error: "Email already in use!" }
+    }
+
+    await db.user.create({
+        data:{
+            name,
+            email,
+            password: hashedPassword
+        }
+    })
+
+    // TODO: Send verification token email
+
+    return { success: "User created!" };
 } 
