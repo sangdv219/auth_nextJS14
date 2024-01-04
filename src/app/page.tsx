@@ -1,22 +1,22 @@
 import { LoginButton } from "@/components/auth/login-button";
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
     <main className="flex h-screen flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
       <div className="space-y-6 text-center">
         <h1 className="text-6xl font-semibold text-white drop-shadow-md">
-          Auth
+        🔐 Auth
         </h1>
         <p className="text-white text-lg">A simple authentication service</p>
         <div>
-          <LoginButton>
-            <button
+          <LoginButton asChild>
+            <Button variant="secondary" size="lg"
               type="button"
               className="bg-white text-gray-900 py-4 px-8 rounded-lg cursor-pointer"
             >
               Sign in
-            </button>
+            </Button>
           </LoginButton>
         </div>
       </div>
