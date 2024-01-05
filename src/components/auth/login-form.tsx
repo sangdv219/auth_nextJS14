@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import * as z from "zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -22,7 +22,6 @@ export const LoginForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
-
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -31,20 +30,25 @@ export const LoginForm = () => {
     },
   });
 
-
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    console.info("dsada");
     setError("");
     setSuccess("");
-    startTransition(() => {
-      login(values).then((data) => {
-        if(data?.error){
-          setError(data?.error);
-        }
-        // if(data?.success){
-        //   setSuccess(data?.success);
-        // }
-      });
+    login(values).then((data) => {
+      if (data?.error) {
+        setError(data?.error);
+      }
     });
+    // startTransition(() => {
+    //   login(values).then((data) => {
+    //     if(data?.error){
+    //       setError(data?.error);
+    //     }
+    //     // if(data?.success){
+    //     //   setSuccess(data?.success);
+    //     // }
+    //   });
+    // });
   };
   return (
     <CardWrapper

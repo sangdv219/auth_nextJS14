@@ -1,14 +1,19 @@
 
 import { DEFAULT_LOGIN_REDIRECT, apiAuthPrefix, authRoutes, publicRoutes } from './routes';
-// const { auth } = NextAuth(authConfig)
 
-export function middleware(req: { auth?: any; nextUrl?: any; }){
-    // console.info('__middleware__');
+import NextAuth from 'next-auth'
+
+import authConfig from '@/auth.config'
+
+const { auth } = NextAuth(authConfig)
+// export function middleware(req: { auth?: any; nextUrl?: any; }){
+export default auth((req:any)=>{
     const isLoggedIn = !!req.auth
     const { nextUrl } = req;
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix); 
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+    console.info('__middleware__',);
 
     if(isApiAuthRoute){
         return null
@@ -31,7 +36,7 @@ export function middleware(req: { auth?: any; nextUrl?: any; }){
     // console.log('authRoutes_: ', authRoutes)
     // console.log('publicRoutes_: ', publicRoutes)
     // console.log('isLoggedIn_: ', isLoggedIn)
-}
+})
 
 export const config = {
     matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
