@@ -16,16 +16,16 @@ export default auth((req:any)=>{
     console.info('__middleware__',);
 
     if(isApiAuthRoute){
-        return null
+        return null;
     }
 
     if(isAuthRoute){
         if(isLoggedIn){
             return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
         }
-        return null
+        return null;
     }
-    console.info('isLoggedIn', isLoggedIn);
+    // console.info('isLoggedIn', isLoggedIn);
     if(!isLoggedIn && !isPublicRoute){
         return Response.redirect(new URL('/auth/login', nextUrl))
     }
